@@ -1,4 +1,75 @@
+const fs = require('fs');
+const express = require('express')
+const mysql = require('mysql2')
+const bodyParser = require('body-parser');
+const { PDFDocument } = require('pdf-lib');
+const path = require('path')
+const expressLayouts = require('express-ejs-layouts')
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
+const multer = require('multer');
+const moment = require('moment');
+const bcrypt = require('bcrypt');
+const app = express()
 
+
+// Create multer storage configuration
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+
+// Create multer upload configuration
+const upload = multer({
+  storage: storage
+});
+
+
+//buat folder penampung file jika tidak ada
+if (!fs.existsSync('./uploads')) {
+  fs.mkdirSync('./uploads');
+}
+
+
+const saltRounds = 10;
+
+// middleware untuk parsing request body
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(cookieParser());
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+    app.set('views',__dirname)
+    app.set('views', path.join(__dirname, '/views'));
+    //biar bisa pakai kodingan format ejs(yg % itu lohh)
+    app.set('view engine', 'ejs')
+    //biar bisa pake css,img dan js
+    app.use('/css', express.static(path.resolve(__dirname, "assets/css")));
+    // app.use('/js', express.static(path.resolve(__dirname, "assets/js")));
+    app.use('/img', express.static(path.resolve(__dirname, "assets/img")));
+
+   
+   //biar bisa bikin layout (memanggil modul)
+   app.use(expressLayouts);
+
+   
+//koneksi database
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    database: 'signing_db'
+  });
+
+  db.connect((err)=>{
+    if(err) throw err
+   console.log('db connected!!')
+   })
 
 //History (From-Others)
 app.get('/from-others', requireAuth, function (req, res) {
@@ -161,3 +232,8 @@ app.get('/', requireAuth, function (req, res) {
     });
   });
 
+
+//port
+app.listen(3000,()=>{
+    console.log("Listening at port 3000")
+  })
