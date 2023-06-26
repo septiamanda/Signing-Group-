@@ -92,6 +92,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `active`, `sign_img`, `created_at`, `updated_at`) VALUES
 (1, 'manda', 'manda@gmail.com', '$2b$10$lodvC3eUYNDQ4g7SV.rJiuvpYzpbLrHOxq29gHtPE3sgx9as147LO', 0, '1687452598907-pngwing.com (1).png', '2023-06-22 16:15:36.375264', '2023-06-22 16:15:36.375264'),
 (2, 'citra', '', '$2b$10$2fUf0LWmFGh38GTXI3dDbuQcgiQrrxTGdg0QRdprC.XqOyNcMeZ1y', 0, '', '2023-06-22 17:17:02.193779', '2023-06-22 17:17:02.193779');
+(4, 'briana', 'briana@gmail.com', '$2b$10$lFBk/NpQaUhYspPWBHsix.FS00O.BOXEdO97DRQ.KiLL0PWEz2Bhy', 0, '1687676709559-Logo Unand Universitas Andalas.png', '2023-06-25 07:04:05.597239', '2023-06-25 07:04:05.597239');
 
 --
 -- Indexes for dumped tables
