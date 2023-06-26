@@ -123,4 +123,41 @@ app.post('/change-password', requireAuth, (req, res) => {
   });
 });
 
+//dashboard
+app.get('/', requireAuth, function (req, res) {
+    if (!req.user_id) {
+      res.redirect('/login');
+      return;
+    }
+    const user_id = req.user_id;
+  
+    const selectUserSql = `SELECT * FROM users WHERE user_id = ${user_id}`;
+    db.query(selectUserSql, (err, userResult) => {
+      if (err) throw err;
+  
+      const selectAllUsersSql = `SELECT * FROM users`;
+      db.query(selectAllUsersSql, (err, allUsersResult) => {
+        if (err) throw err;
+  
+        const selectAllDocumentsSql = `SELECT * FROM documents`;
+        db.query(selectAllDocumentsSql, (err, allDocumentsResult) => {
+          if (err) throw err;
+  
+          const selectAllSignaturesSql = `SELECT * FROM signature`;
+          db.query(selectAllSignaturesSql, (err, allSignaturesResult) => {
+            if (err) throw err;
+  
+            res.render('index', {
+              user: userResult[0],
+              allUsers: allUsersResult,
+              allDocuments: allDocumentsResult,
+              allReq: allSignaturesResult,
+              title: 'Dashboard',
+              layout: 'layouts/main'
+            });
+          });
+        });
+      });
+    });
+  });
 
