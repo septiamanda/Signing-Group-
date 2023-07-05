@@ -206,7 +206,7 @@ app.get('/from-others', requireAuth, function (req, res) {
   db.query(selectUserSql, (err, userResult) => {
     if (err) throw err;
     const selectDocumentsSql =`
-      SELECT documents.document_id, documents.name, documents.description
+      SELECT documents.document_id, documents.name, documents.description, documents.created_at
       FROM documents
       INNER JOIN signature ON documents.document_id = signature.document_id
       WHERE signature.user_id = ${user_id}
